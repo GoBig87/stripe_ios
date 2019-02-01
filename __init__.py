@@ -8,7 +8,7 @@ import os
 class StripeRecipe(CythonRecipe):
     version = "1.0.0"
     url = "https://github.com/GoBig87/Stripe_iOS_Wrapper/archive/{version}.zip"
-    library = "stripe_ios.a"
+    library = "stripe.a"
     pbx_frameworks = ['Foundation','Stripe']
     depends = ["python","hostpython"]
     pre_build_ext = True
@@ -21,7 +21,7 @@ class StripeRecipe(CythonRecipe):
         filename = '__init__.py'
         with open(os.path.join(build_dir, filename), 'wb'):
             pass
-        dist_dir  = join(self.ctx.dist_dir,'root','python','lib','python2.7','site-packages','stripe_ios')
+        dist_dir  = join(self.ctx.dist_dir,'root','python','lib','python2.7','site-packages','stripe')
         copy_tree(build_dir, dist_dir)
 
     def biglink(self):
@@ -30,6 +30,6 @@ class StripeRecipe(CythonRecipe):
             if fnmatch.filter(filenames, "*.so.*"):
                 dirs.append(root)
         cmd = sh.Command(join(self.ctx.root_dir, "tools", "biglink"))
-        shprint(cmd, join(self.build_dir, "stripe_ios.a"), *dirs)
+        shprint(cmd, join(self.build_dir, "stripe.a"), *dirs)
 
 recipe = StripeRecipe()
